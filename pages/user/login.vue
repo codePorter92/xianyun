@@ -6,13 +6,18 @@
         @click='tabControl(index)' 
         :class='{active:current===index}'>{{item}}</span>
       </div>
-      <div class='login' v-show='current===0'>登陆页</div>
-      <div class="registy" v-show="current===1">注册页</div>
+      <div class='login' v-show='current===0'>
+        登录页
+      </div>
+      <div class="registy" v-show="current===1">
+        <registyPage/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import registyPage from '~/components/user/registyForm.vue'
 export default {
   data() {
     return {
@@ -24,6 +29,9 @@ export default {
     tabControl(index){
       this.current=index
     }
+  },
+  components:{
+    registyPage
   }
 };
 </script>
@@ -36,28 +44,31 @@ export default {
   justify-content: center;
   align-items: center;
   min-width: 1000px;
-  height: 700px;
+  height: 800px;
 }
 .title {
   background-color: #ece4e4;
   > span {
     display: inline-block;
-    width: 160px;
-    height: 60px;
-    line-height: 60px;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     color: rgb(31, 29, 29);
   }
 }
 .login,.registy{
-  width:inherit;
-  height:300px;
-  background-color:#fff
+  width:400px;
+  background-color:#fff;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding-top:10px
 }
 .active{
   background-color:#fff;
-  border-top:rgb(241, 70, 2) !important;
+  border-top:2px solid rgb(241, 70, 2) !important;
   color:rgb(241, 70, 2)!important
 }
 </style>
