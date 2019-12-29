@@ -1,4 +1,5 @@
 # xianyun
+<<<<<<< HEAD
 
 > My geometric Nuxt.js project
 
@@ -20,3 +21,6 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+=======
+traval net
+>>>>>>> a24541cb444e8e9f67032d614ba31320250526df
