@@ -24,7 +24,7 @@
         <el-input v-model="ruleForm.password" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item prop="confirmpsd">
-        <el-input v-model="confirmpsd" placeholder="确认密码"></el-input>
+        <el-input v-model="ruleForm.confirmpsd" placeholder="确认密码"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:300px" @click="submitrequired">注册</el-button>
@@ -42,7 +42,7 @@ export default {
         callback(new Error("手机号码不能为空"));
       } else {
         // 正则表达式规定手机号码
-        let reg = /^1[3-9]\d{9}/;
+        let reg = /^1[3-9]\d{9}$/;
         if (reg.test(value)) {
           callback();
         } else {
@@ -83,7 +83,7 @@ export default {
         captcha: "",
         nickname: "",
         password: "",
-      confirmpsd: "",
+        confirmpsd: ""
       },
       phoneattr: "",
       rules: {
@@ -121,12 +121,28 @@ export default {
       }
     },
     submitrequired() {
-      this.$axios({
-        url: "/accounts/register",
-        method: "post",
-        data: this.ruleForm
-      }).then(res => {
-        console.log(res);
+      // 对信息进行二次的检查
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          this.$axios({
+            url: "/accounts/register",
+            method: "post",
+            data: {
+              username: this.ruleForm.username,
+              nickname: this.ruleForm.nickname,
+              captcha: this.ruleForm.captcha,
+              password: this.ruleForm.password
+            }
+          }).then(res => {
+            console.log(res);
+            this.$message.success("注册成功，请重新登录");
+            // setTimeout(()=>{
+            //   this.$router.push('/index')
+            // },500)
+          });
+        } else {
+          this.$message.warning('注册信息出错，请重新查看')
+        }
       });
     }
   }

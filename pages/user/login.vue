@@ -7,7 +7,7 @@
         :class='{active:current===index}'>{{item}}</span>
       </div>
       <div class='login' v-show='current===0'>
-        登录页
+        <loginPage/>
       </div>
       <div class="registy" v-show="current===1">
         <registyPage/>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import loginPage from '@/components/user/loginForm.vue'
 import registyPage from '~/components/user/registyForm.vue'
 export default {
   data() {
@@ -31,7 +32,7 @@ export default {
     }
   },
   components:{
-    registyPage
+    registyPage,loginPage
   }
 };
 </script>

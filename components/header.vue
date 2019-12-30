@@ -19,20 +19,18 @@
       <!-- 登录/用户信息 -->
       <el-row type="flex" align="middle">
         <!-- 如果用户存在则展示用户信息，用户数据来自store -->
-        <el-dropdown v-if="false">
+        <el-dropdown v-if='$store.state.user.userInfo.token'>
           <el-row type="flex" align="middle" class="el-dropdown-link">
-            <nuxt-link to="#">
-              <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" />
-              用户名
-            </nuxt-link>
+              <img :src="$axios.defaults.baseURL+$store.state.user.userInfo.user.defaultAvatar" />
+              <span>{{$store.state.user.userInfo.user.nickname}}</span>
             <i class="el-icon-caret-bottom el-icon--right"></i>
           </el-row>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <nuxt-link to="#">个人中心</nuxt-link>
+            个人中心
             </el-dropdown-item>
             <el-dropdown-item>
-              <div @click="handleLogout">退出</div>
+              <div @click='quitPersonSystem'>退出</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -45,7 +43,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+
+    }
+  },
+  methods:{
+    quitPersonSystem(){
+      this.$store.commit('user/senduserInfo',{})
+    }
+  }
+};
 </script>
 <style lang='less'>
 .header{
