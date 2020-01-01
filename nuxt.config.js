@@ -31,7 +31,9 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     // 配置vuex-presiststate的环境
-    { src: '~/plugins/localStorage.js', ssr: false }
+    { src: '~/plugins/localStorage.js', ssr: false },
+    // 配置拦截器的插件
+    '@/plugins/axios.js'
   ],
   /*
   ** Nuxt.js dev-modules
