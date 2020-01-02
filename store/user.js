@@ -47,5 +47,14 @@ export const actions={
             // },500)
             return true
           });
-    }
+    },
+    //根据输入框内容查找城市列表
+    searchcity(store,data){
+      return this.$axios({
+        url:'/cities',
+        params:{name:data}
+      }).then(res=>{
+        return res
+      })
+    } 
 }

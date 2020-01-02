@@ -13,7 +13,10 @@
       <el-form-item prop="authcode">
         <el-input v-model="ruleForm.captcha" placeholder="验证码">
           <template slot="append">
-            <el-button @click="handleSendCaptcha" :disabled='isdisabled'>{{isdisabled?`${timeinterval}s后重新发送`:'发送验证码'}}</el-button>
+            <el-button
+              @click="handleSendCaptcha"
+              :disabled="isdisabled"
+            >{{isdisabled?`${timeinterval}s后重新发送`:'发送验证码'}}</el-button>
           </template>
         </el-input>
       </el-form-item>
@@ -97,8 +100,8 @@ export default {
         confirmpsd: [{ validator: validateconfirmpsd, trigger: "blur" }]
       },
       // 当点击验证码发送按钮之后，一般等待60s的时间，才能从新点击，该设置的一些变量声明
-      isdisabled:false,
-      timeinterval:60
+      isdisabled: false,
+      timeinterval: 60
     };
   },
   methods: {
@@ -120,18 +123,21 @@ export default {
           //   this.$message.success("获取成功，验证码：" + res.data.code);
           //   this.$store.commit("user/getauthcode", res.data.code);
           // });
-          this.$store.dispatch('user/sendcaptchas',this.phoneattr).then(res=>{
-            // console.log(res)
-            this.$message.success("验证码'000000'以发至手机中，请及时填写")
-            let intervalId=setInterval(() => {
-              this.timeinterval--
-              this.isdisabled=true
-              if(this.timeinterval===-1){
-                  clearInterval(intervalId)
-                  this.isdisabled=false
-              }
-            }, 1000);
-          })
+          this.$store
+            .dispatch("user/sendcaptchas", this.phoneattr)
+            .then(res => {
+              // console.log(res)
+              this.$message.success("验证码'000000'以发至手机中，请及时填写");
+              let intervalId = setInterval(() => {
+                this.timeinterval--;
+                this.isdisabled = true;
+                if (this.timeinterval === -1) {
+                  clearInterval(intervalId);
+                  this.isdisabled = false;
+                  this.timeinterval=60
+                }
+              }, 1000);
+            });
         }
       }
     },
@@ -140,7 +146,7 @@ export default {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           // 使用解构把发送请求的参数从ruleForm提取出来
-          let {confirmpsd,...others}=this.ruleForm
+          let { confirmpsd, ...others } = this.ruleForm;
           // this.$axios({
           //   url: "/accounts/register",
           //   method: "post",
@@ -152,16 +158,21 @@ export default {
           //     this.$router.push({path:'/'})
           //   },500)
           // });
-          this.$store.dispatch('user/registyuser',others).then(res=>{
-            if(res){
-            const {captcha,nickname,confirmpsd,...others}=this.ruleForm
-            this.$store.dispatch('user/login',others).then(res=>{
-              this.$router.push({path:'/'})
-            })
+          this.$store.dispatch("user/registyuser", others).then(res => {
+            if (res) {
+              const {
+                captcha,
+                nickname,
+                confirmpsd,
+                ...others
+              } = this.ruleForm;
+              this.$store.dispatch("user/login", others).then(res => {
+                this.$router.push({ path: "/" });
+              });
             }
-          })
+          });
         } else {
-          this.$message.warning('注册信息出错，请重新查看')
+          this.$message.warning("注册信息出错，请重新查看");
         }
       });
     }
