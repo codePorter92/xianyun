@@ -60,7 +60,7 @@ export default {
               if(res==true){
                 this.$message.success('登录成功，欢迎您的到来')
                 // router的路由跳转可以使用replace来跳转
-                this.$router.replace('/')
+                this.$router.back()
               }
             })
           } else {

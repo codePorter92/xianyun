@@ -20,6 +20,7 @@ export const actions={
               data
             }).then(res=>{
              store.commit('senduserInfo',res.data)
+            //  console.log(res.data)
               return true
             })
     },

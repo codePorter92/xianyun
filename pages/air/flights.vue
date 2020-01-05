@@ -1,6 +1,6 @@
 <template>
   <section class="contianer">
-    <el-row>
+    <el-row type="flex" justify="space-between">
       <div class="flights-content">
         <!-- 过滤条件 -->
         <flightsfilter :data="cacheflightslist||{}" @Filters="getFiltersArr"/>
@@ -111,7 +111,7 @@ export default {
 
 <style lang='less' scoped>
 .contianer {
-  position:relative;  
+//   position:relative;  
   width: 1000px;
   margin: 20px auto;
 }
@@ -122,9 +122,9 @@ export default {
 }
 
 .aside {
-  position:absolute;
-  top:0;
-  right:0;  
+//   position:absolute;
+//   top:0;
+//   right:0;  
   width: 240px;
     
 }

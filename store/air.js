@@ -7,5 +7,8 @@ export const state=()=>{
 export const mutations={
     sendhistory(state,data){
         state.historyArr.unshift(data)
+    },
+    cleanhistory(state){
+        state.historyArr=[]
     } 
 }
