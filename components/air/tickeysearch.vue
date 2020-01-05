@@ -26,7 +26,6 @@
           :fetch-suggestions="searchDestCity"
           placeholder="请输入内容"
           @select="selectDestCity"
-          @blur='defaultsdepart'
         ></el-autocomplete>
       </el-form-item>
       <el-form-item label="出发时间">
@@ -87,6 +86,7 @@ export default {
     searchDepartCity(value, callback){
       this.$store.dispatch('user/searchcity',value).then(res=>{
         let citylist=res.data.data
+        console.log(citylist)
         let result=value?citylist.map(item=>{
           let {name,sort}=item
           // console.log(name)
@@ -180,9 +180,9 @@ export default {
       this.flyoptions.destCode=departCode
     },
     // 当用户正确输入出发到达城市，并且没有点击下拉菜单时的情况,暂时放下
-    defaultsdepart(){
-      console.log('放一边')
-    }
+    // defaultsdepart(){
+    //   console.log('放一边')
+    // }
   }
 };
 </script>

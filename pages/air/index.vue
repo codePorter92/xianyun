@@ -3,53 +3,7 @@
     <h2 class="air-title"><span class="iconfont iconfeiji"></span>
       <i>国内机票</i>
     </h2>
-    <!-- <div class="listform"> -->
-      <!-- tab栏 -->
-      <!-- <el-tabs type="border-card">
-        <el-tab-pane>
-          <span slot="label">
-            <i class="el-icon-date"></i> 单程
-          </span>
-          <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="出发城市">
-              <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="到达城市">
-              <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="出发时间">
-              <el-col :span="11">
-                <el-date-picker
-                  type="date"
-                  placeholder="选择日期"
-                  v-model="form.date1"
-                  style="width: 100%;"
-                ></el-date-picker>
-              </el-col>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary">搜索</el-button>
-            </el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane>
-          <span slot="label">
-            <i class="el-icon-date"></i> 往返
-          </span>
-          往返行程
-        </el-tab-pane>
-      </el-tabs>
-      右侧图片
-       <div class="adver">
-        <img src="http://157.122.54.189:9093/images/pic_sale.jpeg" />
-      </div>
-    </div>
-    <div class="server">
-      <span>100%航协认证</span>
-      <span>出行保证</span>
-      <span>7×24小时服务</span>
-    </div>
-    <h3>特价机票</h3> -->
+    
     <el-row type="flex" justify="space-between">
         <!-- 搜索表单 -->
         <div><search/></div>
@@ -82,7 +36,17 @@
 
     <!-- 特价机票 -->
     <div class="air-sale">
-        
+        <el-row class='air-sale-pic' type="flex">
+          <el-col :span="6" v-for='(item,index) in tickeys' :key='index'>
+            <nuxt-link :to="`/air/flights?departCity=${item.departCity}&departCode=${item.departCode}&destCity=${item.destCity}&destCode=${item.destCode}&departDate=${item.departDate}`">
+              <img :src="item.cover"/>
+              <el-row class='layer-bar' type='flex' justify="space-between">
+                <span>{{`${item.departCity}—${item.destCity}`}}</span>
+                <span>￥{{item.price.toFixed(2)}}</span>
+              </el-row>
+            </nuxt-link>
+          </el-col>
+        </el-row>
     </div>
   </section>
 </template>
@@ -90,8 +54,20 @@
 <script>
 import search from '@/components/air/tickeysearch'
 export default {
+  data(){
+    return{
+      tickeys:[]
+    }
+  },
  components:{
    search
+ },
+ async mounted(){
+   let res = await this.$axios({
+     url:'/airs/sale'
+   })
+   console.log(res)
+  this.tickeys=res.data.data
  }
 };
 </script>
