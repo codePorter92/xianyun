@@ -21,7 +21,7 @@
       </div>
       <!-- 侧边栏 -->
       <div class="aside">
-        <!-- 测边栏组件 -->
+          <flightsaside/>
       </div>
     </el-row>
   </section>
@@ -30,7 +30,8 @@
 <script>
 import flightsheader from "@/components/air/flightsheader";
 import flightsitem from "@/components/air/flightslist";
-import flightsfilter from "@/components/air/flightsfilter"
+import flightsfilter from "@/components/air/flightsfilter";
+import flightsaside from "@/components/air/flightsaside"
 export default {
   data() {
     return {
@@ -55,11 +56,24 @@ export default {
     this.flightslist = res.data;
     // 组件加载之后做的缓存
     this.cacheflightslist={...this.flightslist}
+    //由于数据的获取是在父组件获取的，所以把参数的数据通过VUEX传送过去给历史纪录
+    let data = this.$route.query
+    console.log(data)
+    this.$store.commit('air/sendhistory',data)
   },
   components: {
     flightsheader,
     flightsitem,
-    flightsfilter
+    flightsfilter,
+    flightsaside
+  },
+  watch:{
+     //   检测路由的变化
+     async '$route'(){
+            let res = await this.getTickeyInfo()
+            this.flightslist = res.data;
+            this.cacheflightslist={...this.flightslist}
+      }
   },
   //通过computed来监听函数内部引用实例的属性
   computed: {
@@ -97,6 +111,7 @@ export default {
 
 <style lang='less' scoped>
 .contianer {
+  position:relative;  
   width: 1000px;
   margin: 20px auto;
 }
@@ -107,6 +122,10 @@ export default {
 }
 
 .aside {
+  position:absolute;
+  top:0;
+  right:0;  
   width: 240px;
+    
 }
 </style>
