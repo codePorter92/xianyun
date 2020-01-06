@@ -1,6 +1,8 @@
 export const state=()=>{
     return{
-       historyArr:[] 
+       historyArr:[],
+       allprice:0,
+       person:1
     }
 }
 
@@ -10,5 +12,9 @@ export const mutations={
     },
     cleanhistory(state){
         state.historyArr=[]
+    },
+    countprice(state,data){
+        state.allprice=data.result
+        state.person=data.length
     } 
 }

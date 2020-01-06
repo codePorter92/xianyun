@@ -65,7 +65,7 @@
         <el-button type="warning" class="submit" @click="sendsubmit">提交订单</el-button>
       </div>
     </div>
-    {{totol}}
+    {{totolpay}}
   </div>
 </template>
 
@@ -100,10 +100,28 @@ export default {
       select2: ""
     };
   },
-  computed:{
-      totol(){
-          return ''
-      }
+  computed: {
+    totolpay() {
+      // data.seat_infos.par_price   成人票价
+      // data.airport_tax_audlet     燃油税
+      // 用户计算，保险金计算,燃油费
+      let result = 0;
+      let len = this.user.length;
+      let data={}
+        result +=
+          (this.data.seat_infos.par_price + this.data.airport_tax_audlet) *
+          len;
+        //   console.log(this.data.airport_tax_audler)
+        this.insurances.forEach(v => {
+          result += this.data.insurances[v - 1].price * len;
+        });
+        // console.log(result)
+      // 把数据使用vuex传送出去
+      data.result=result
+      data.length=len
+      this.$store.commit("air/countprice", data);
+      return "";
+    }
   },
   methods: {
     //   添加乘机员
@@ -165,7 +183,7 @@ export default {
         url: "/airorders",
         method: "post",
         data: {
-          user: this.user,
+          users: this.user,
           insurances: this.insurances,
           contactName: this.contactName,
           contactPhone: this.contactPhone,
@@ -174,12 +192,17 @@ export default {
           seat_xid: this.seat_xid,
           air: this.air
         },
-        headers:{
-            // bearer是token字符串前面必须要声明的，后面加上空格，再连接上token
-            Authorization:`Bearer ${[token]}`
+        headers: {
+          // bearer是token字符串前面必须要声明的，后面加上空格，再连接上token
+          Authorization: `Bearer ${[token]}`
         }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
+        this.$message.success(res.data.message)
+        let query={
+            id:res.data.data.id
+        }
+        this.$router.push({path:'/air/pay',query:query})
       });
     }
   }

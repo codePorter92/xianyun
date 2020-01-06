@@ -1,7 +1,8 @@
 import createPersistedState from 'vuex-persistedstate'
  
-export default ({store}) => {
+export default (nuxt) => {
+  console.log(nuxt)
   window.onNuxtReady(() => {
-    createPersistedState()(store)
+    createPersistedState()(nuxt.store)
   })
 }

@@ -11,5 +11,10 @@ export default ({$axios})=>{
         if(statusCode===400){
             Message.warning(message)
         }
+        if(statusCode === 401){
+            Message.error("登录过期，跳转到登录页");
+            // nuxt会成功的跳转到登录页去
+            nuxt.redirect(200,"/user/login")
+        }
     })
 }

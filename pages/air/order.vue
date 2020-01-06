@@ -20,7 +20,8 @@ export default {
   data(){
     return{
       tickeyInfo:{
-        insurances:[]
+        insurances:[],
+        seat_infos:{}
       }
     }
   },

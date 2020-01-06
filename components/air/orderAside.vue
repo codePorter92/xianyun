@@ -11,7 +11,7 @@
             <span>{{data.org_airport_name}}</span>
         </el-col>
         <el-col :span="14" class="flight-time">
-          <span>---2时20分---</span>
+          <span>---{{timeInterval}}---</span>
           <span>{{data.airline_name}}{{data.flight_no}}</span>
         </el-col>
         <el-col :span="5" class="flight-airport">
@@ -27,16 +27,16 @@
       <el-row type="flex" justify="space-between" class="info-bar">
         <span>成人机票</span>
         <span>￥{{data.seat_infos.par_price}}</span>
-        <span>×1</span>
+        <span>×{{$store.state.air.person}}</span>
       </el-row>
       <el-row type="flex" justify="space-between" class="info-bar">
         <span>机建+燃油</span>
         <span>￥{{data.airport_tax_audlet}}/人/单程</span>
-        <span>×1</span>
+        <span>×{{$store.state.air.person}}</span>
       </el-row>
       <el-row type="flex" justify="space-between" align="middle" class="info-bar">
         <span>应付总额：</span>
-        <span class="price">￥1395</span>
+        <span class="price">￥{{$store.state.air.allprice}}</span>
       </el-row>
     </div>
   </div>
@@ -49,6 +49,24 @@ export default {
             type:Object,
             default(){return{}}
         }
+    },
+    computed:{
+        timeInterval(){
+            if(!this.data.dep_time) return ''
+            console.log(this.data)
+            let depArr = this.data.dep_time.split(':')
+            let arrArr = this.data.arr_time.split(':')
+            
+            if(+depArr[0]>+arrArr[0]){
+                arrArr[0]=+arrArr[0]+24
+            }
+            let deptime=depArr[0]*60+ +depArr[1]
+            let arrtime=arrArr[0]*60+ +arrArr[1]
+            let time = arrtime-deptime
+            let hour = Math.floor(time/60)
+            let min = time%60
+            return `${hour}时${min}分`
+         }
     }
 };
 </script>
