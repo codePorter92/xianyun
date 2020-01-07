@@ -22,6 +22,21 @@ import postaside from '@/components/post/postaside'
 import postheader from '@/components/post/postheader'
 import postmain from '@/components/post/postmian'
 export default {
+mounted(){
+    // this.$axios({
+    //   url:"/posts"
+    // }).then(res=>{
+    //   console.log(res)
+    // })
+    // this.$axios({
+    //   url:"/cities",
+    //   params:{
+    //     name:'湛江市'
+    //   }
+    // }).then(res=>{
+    //   console.log(res)
+    // })
+},
 components:{
   postaside,postheader,postmain
 }

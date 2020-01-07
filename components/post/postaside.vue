@@ -1,16 +1,21 @@
 <template>
   <div class="postaside">
-    <div class="active">
-      <el-row type="flex" justify="space-between" align="middle" class="eachrow">
-        <span>热门城市</span>
-        <span class="el-icon-arrow-right"></span>
-      </el-row>
-      <div class="list">
-        <el-row>
-          <el-col :span="2" style="font-style:italic;font-size:18px;color:#ffa500">1</el-col>
-          <el-col :span="4" style="color:#ffa500">广州</el-col>
-          <el-col :span="18">世界著名古都和现代化国际城市</el-col>
+    <div class="big" @mouseleave="hiddenlist">
+      <div v-for="(item,index) in cityArr" 
+      :key="index" 
+      @mouseenter="handlelist(index)"
+      >
+        <el-row type="flex" justify="space-between" align="middle" class="eachrow" :class="{'active':current===index}">
+          <span>{{item.type}}</span>
+          <span class="el-icon-arrow-right"></span>
         </el-row>
+        <div class="list" v-show="current===index">
+          <el-row v-for="(city,index) in item.children" :key="index" class="children">
+            <el-col :span="2" style="font-style:italic;font-size:18px;color:#ffa500">{{index+1}}</el-col>
+            <el-col :span="4" style="color:#ffa500">{{city.city}}</el-col>
+            <el-col :span="18" >{{city.desc}}</el-col>
+          </el-row>
+        </div>
       </div>
     </div>
 
@@ -26,6 +31,29 @@
 
 <script>
 export default {
+  async mounted() {
+    let res = await this.$axios({
+      url: "/posts/cities"
+    });
+    // console.log(res);
+    this.cityArr=res.data.data
+  },
+  data() {
+    return {
+      isshow: false,
+      current:'',
+      cityArr:[]
+    };
+  },
+  methods:{
+      handlelist(index){
+          console.log(111)
+          this.current=index
+      },
+      hiddenlist(){
+          this.current=''
+      }
+  }
 };
 </script>
 
@@ -44,24 +72,37 @@ export default {
   top: 0;
   left: 260px;
   width: 300px;
-  height: 220px;
-  display: none;
+  height: 190px;
+  //   display: none;
   border: 1px solid #dddddd;
-  background-color:#fff;
+  background-color: #fff;
   // border-left: 1px solid transparent;
   padding: 10px;
   font-size: 16px;
   z-index: 999;
 }
-.active {
+.big {
   position: relative;
 }
-.active:hover .eachrow + .list {
-  display: block;
+.children{
+    width: 300px;
+    margin-bottom: 16px;
+    color:rgb(158, 152, 152);
+    font-size:15px;
+    cursor: pointer;
+    // 省略号
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+// 样式变化
+.active{
+    color:#ffa500;
+    border-right:none;
 }
 .recomend {
   width: 260px;
-  margin-top:20px;
+  margin-top: 20px;
   .recomendheader {
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
