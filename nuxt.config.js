@@ -33,7 +33,8 @@ export default {
     // 配置vuex-presiststate的环境
     { src: '~/plugins/localStorage.js', ssr: false },
     // 配置拦截器的插件
-    '@/plugins/axios.js'
+    '@/plugins/axios.js',
+    '@/assets/main.css'
   ],
   /*
   ** Nuxt.js dev-modules

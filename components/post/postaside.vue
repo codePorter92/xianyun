@@ -10,7 +10,7 @@
           <span class="el-icon-arrow-right"></span>
         </el-row>
         <div class="list" v-show="current===index">
-          <el-row v-for="(city,index) in item.children" :key="index" class="children">
+          <el-row v-for="(city,index) in item.children" :key="index" class="children" @click.native="handlerCity(city.city)">
             <el-col :span="2" style="font-style:italic;font-size:18px;color:#ffa500">{{index+1}}</el-col>
             <el-col :span="4" style="color:#ffa500">{{city.city}}</el-col>
             <el-col :span="18" >{{city.desc}}</el-col>
@@ -47,11 +47,13 @@ export default {
   },
   methods:{
       handlelist(index){
-          console.log(111)
           this.current=index
       },
       hiddenlist(){
           this.current=''
+      },
+      handlerCity(value){
+        this.$emit('comeFromAside',value)
       }
   }
 };
