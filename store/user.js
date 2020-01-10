@@ -1,6 +1,8 @@
-export const state={
+export const state=()=>{
+  return{
     userInfo:{},
     authcode:''
+  }
 }
 
 export const mutations={

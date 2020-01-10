@@ -32,6 +32,7 @@
 <script>
 export default {
   async mounted() {
+    this.arr={}
     let res = await this.$axios({
       url: "/posts/cities"
     });
