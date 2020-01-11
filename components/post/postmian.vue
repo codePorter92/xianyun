@@ -12,7 +12,7 @@
         <el-row class="floor-header">{{item.title}}</el-row>
         <div class="article" v-html="item.summary"></div>
         <el-row type="flex" justify="space-between">
-          <div class="photo" v-for="(photo , index) in item.images" :key="index">
+          <div class="photo" v-for="(photo , index) in item.images.slice(0,3)" :key="index">
             <img :src="photo" />
           </div>
         </el-row>
@@ -37,17 +37,17 @@
       </nuxt-link>
       <!-- 第二个布局 -->
       <nuxt-link :to="`/post/detail?id=${item.id}`">
-      <el-row type="flex" align="middle" v-if="item && item.images.length<=2">
+      <el-row type="flex" align="middle" v-if="item && item.images.length<=2" class="floor">
         <el-col
           :span="8"
           class="photo"
           style="padding-right:8px"
-          v-for="(item,index) in item.images"
+          v-for="(item,index) in item.images.slice(0,1)"
           :key="index"
         >
           <img :src="item" />
         </el-col>
-        <el-col :span="16" class="floor">
+        <el-col :span="16" >
           <!-- 标题 -->
           <el-row class="floor-header">{{item.title}}</el-row>
           <!-- 文章 -->
@@ -113,12 +113,12 @@ export default {
   border-bottom: 1px solid #ddd;
   &-header {
     margin-bottom: 15px;
-    font-size: 18px;
+    font-size: 19px;
     // 省略号
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
   .article {
