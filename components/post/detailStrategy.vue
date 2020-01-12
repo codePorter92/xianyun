@@ -32,7 +32,7 @@ export default {
     let res = await this.$axios({
       url: "/posts"
     });
-    console.log(res);
+    // console.log(res);
     // 要渲染的攻略数组
     let arr = res.data.data.reverse();
     // 剪切数组
