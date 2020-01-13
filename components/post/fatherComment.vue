@@ -13,23 +13,16 @@
       </el-row>
       <grandfather
         v-if="Object.keys(Father).includes('parent') === true"
-        :Father="Father.parent"  @Fatherwrite="Fatherwrite" 
+        :Father="Father.parent"
+        @Fatherwrite="Fatherwrite"
       />
       <p class="person-com">{{Father.content}}</p>
       <!-- 相片框 -->
-      <!-- <div class="box">
-        <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
-          list-type="picture-card"
-          :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove"
-        >
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible" size="tiny">
-          <img width="100%" :src="dialogImageUrl" alt />
-        </el-dialog>
-      </div>-->
+      <div class="clearFix" v-if="Father.pics.length!==0">
+        <div class="showPhoto" v-for="(picture,index) in Father.pics" :key="index">
+          <img :src="'http://127.0.0.1:1337'+picture.url" />
+        </div>
+      </div>
       <!-- 回复按钮，定位过去 -->
       <span class="replay" @click="Fatherwrite( Father.id , Father.account.nickname)">回复</span>
     </div>
@@ -37,7 +30,7 @@
 </template>
 
 <script>
-import moment from "moment"
+import moment from "moment";
 export default {
   // 父组件重新使用
   name: "grandfather",
@@ -54,10 +47,10 @@ export default {
       return moment(data).format("YYYY-MM-DD  h:mm");
     }
   },
-  methods:{
-      Fatherwrite(ID,name){
-          this.$emit('Fatherwrite',ID,name)
-      }
+  methods: {
+    Fatherwrite(ID, name) {
+      this.$emit("Fatherwrite", ID, name);
+    }
   }
 };
 </script>
@@ -89,6 +82,26 @@ export default {
   height: 92px;
   line-height: 92px;
   margin: 10px 5px 0 0;
+}
+.clearFix::after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.showPhoto {
+  width: 92px;
+  height: 92px;
+  float: left;
+  margin: 10px 5px 0 0;
+  padding: 5px;
+  border: 1px dashed rgb(209, 206, 206);
+  border-radius: 5px;
+  img {
+    max-width: 100%;
+    height: 100%;
+  }
 }
 .replay {
   float: right;

@@ -17,6 +17,7 @@
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-success="handlePictureCardSuccess"
+        :on-remove="handlePictureCardRemove"
         :limit="3"
         name="files"
       >
@@ -68,10 +69,17 @@ export default {
   },
   async mounted() {
     let res = await this.getCommentList();
-    // console.log(res);
+    console.log(res);
     // 把评论的值赋值给数组
     this.commentList = res.data.data;
     this.total = res.data.total;
+  },
+  watch:{
+     async '$route'(){
+        let res = await this.getCommentList();
+        this.commentList = res.data.data;
+        this.total = res.data.total;  
+      }
   },
   components: {
     commentZone
@@ -113,11 +121,23 @@ export default {
     },
     // 文件框的函数
     handlePictureCardPreview(file) {},
-    handlePictureCardSuccess(response, file, fileList) {
-      this.images = fileList.map(v => {
-        let { url } = v.response[0];
+    handlePictureCardRemove(file, fileList){
+        console.log(fileList)
+        this.images = fileList.map(v => {
+        let  url  = v.response[0].id;
         return url;
       });
+      console.log(this.images);
+    },
+    handlePictureCardSuccess(response, file, fileList) {
+        // console.log(response);
+    //     console.log(fileList)
+        this.images = fileList.map(v => {
+        let  url  = v.response[0].id;
+        return url;
+      });
+    //   console.log(this.images)
+    // this.postForm.pics.push(response[0].id);
     },
     // 提交内容
     async subComment() {
@@ -128,6 +148,7 @@ export default {
         this.$route.push({ path: "/user/login" });
         return;
       }
+    //   console.log(this.images)
       let res;
       if (!this.ReplayId) {
         res = await this.comment();
