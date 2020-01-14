@@ -34,7 +34,8 @@ export default {
     { src: '~/plugins/localStorage.js', ssr: false },
     // 配置拦截器的插件
     '@/plugins/axios.js',
-    '@/assets/main.css'
+    '@/assets/main.css',
+    '@/plugins/map.js'
   ],
   /*
   ** Nuxt.js dev-modules

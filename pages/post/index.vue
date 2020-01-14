@@ -6,7 +6,7 @@
     <!-- 右边侧 -->
     <div class="right">
       <!-- 头部 -->
-      <el-input v-model="search" placeholder="请输入想去的地方，比如'广州'" class="input" @blur="getOneCityArticle">
+      <el-input v-model.lazy="search" placeholder="请输入想去的地方，比如'广州'" class="input" @blur="getOneCityArticle">
         <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
       <el-row class="citys">
